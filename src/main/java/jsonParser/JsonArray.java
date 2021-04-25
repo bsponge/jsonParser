@@ -5,7 +5,7 @@ import exceptions.JsonParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonArray extends JsonElement {
+public class JsonArray {
         private final ArrayList<Object> arrayList;
 
         public JsonArray() {

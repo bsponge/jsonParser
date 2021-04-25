@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonObject extends JsonElement {
+public class JsonObject {
     private final Map<String, Object> jsonMap;
 
     public JsonObject() {
