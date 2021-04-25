@@ -41,7 +41,7 @@ public class JsonObject {
                 }
             } else if (i == 3) {
                 if (!list.get(index).equals(",")) {
-                    return index;
+                    throw new JsonParseException("Missing ',' after " + name + " value!");
                 }
                 i = -1;
             }
