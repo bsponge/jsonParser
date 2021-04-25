@@ -1,6 +1,14 @@
 package main;
 
+import exceptions.JsonParseException;
+import jsonParser.JsonArray;
+import jsonParser.JsonObject;
+import jsonParser.JsonParser;
+
+import java.util.ArrayList;
+
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -13,19 +21,19 @@ public class Main {
         System.out.println("Date:");
         LocalDateTime date = LocalDateTime.parse(getInput());
 
-        System.out.println("Cargo weight: " + Solution.getTotalCargoWeightInKg(flightNumber, date) + "kg");
-        System.out.println("Baggage weight: " + Solution.getTotalBaggageWeightInKg(flightNumber, date) + "kg");
-        System.out.println("Total weight: " + Solution.getTotalWeightInKg(flightNumber, date) + "kg");
+        System.out.printf("Cargo weight: %f kg\n", Solution.getTotalCargoWeightInKg(flightNumber, date));
+        System.out.printf("Baggage weight: %f kg\n", Solution.getTotalBaggageWeightInKg(flightNumber, date));
+        System.out.printf("Total weight: %f kg\n", Solution.getTotalWeightInKg(flightNumber, date));
         System.out.println();
 
         System.out.println("2.");
         System.out.println("IATA Airport Code:");
         String IATAAirportCode = getInput();
 
-        System.out.println("Number of flights departing from the airport: " + Solution.getNumberOfDepartingFlights(IATAAirportCode));
-        System.out.println("Number of flights arriving to the airport: " + Solution.getNumberOfArrivingFlights(IATAAirportCode));
-        System.out.println("Total number of baggage arriving to the airport: " + Solution.getNumberOfPiecesOfArrivingBaggage(IATAAirportCode));
-        System.out.println("Total number of baggage departing from the airport: " + Solution.getNumberOfPiecesOfDepartingBaggage(IATAAirportCode));
+        System.out.printf("Number of flights departing from the airport: %d\n", Solution.getNumberOfDepartingFlights(IATAAirportCode));
+        System.out.printf("Number of flights arriving to the airport: %d\n", Solution.getNumberOfArrivingFlights(IATAAirportCode));
+        System.out.printf("Total number of baggage arriving to the airport: %d\n", Solution.getNumberOfPiecesOfArrivingBaggage(IATAAirportCode));
+        System.out.printf("Total number of baggage departing from the airport: %d\n", Solution.getNumberOfPiecesOfDepartingBaggage(IATAAirportCode));
 
     }
 

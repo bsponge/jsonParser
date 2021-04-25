@@ -346,4 +346,41 @@ public class DataSupplier {
                         "    ]\n" +
                         "  }"};
     }
+    static String test = "[\n" +
+            "  {\n" +
+            "    \"flightId\": 0,\n" +
+            "    \"flightNumber\": 3103,\n" +
+            "    \"departureAirportIATACode\": \"YYT\",\n" +
+            "    \"arrivalAirportIATACode\": \"KRK\",\n" +
+            "    \"departureDate\": \"2019-03-18T12:29:40-01:00\"\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"flightId\": 1,\n" +
+            "    \"flightNumber\": 5966,\n" +
+            "    \"departureAirportIATACode\": \"YYT\",\n" +
+            "    \"arrivalAirportIATACode\": \"LEW\",\n" +
+            "    \"departureDate\": \"2016-08-04T06:11:37-02:00\"\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"flightId\": 2,\n" +
+            "    \"flightNumber\": 2493,\n" +
+            "    \"departureAirportIATACode\": \"YYZ\",\n" +
+            "    \"arrivalAirportIATACode\": \"LEW\",\n" +
+            "    \"departureDate\": \"2019-07-05T03:08:00-02:00\"\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"flightId\": 3,\n" +
+            "    \"flightNumber\": 6209,\n" +
+            "    \"departureAirportIATACode\": \"LAX\",\n" +
+            "    \"arrivalAirportIATACode\": \"PPX\",\n" +
+            "    \"departureDate\": \"2019-11-16T11:06:24-01:00\"\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"flightId\": 4,\n" +
+            "    \"flightNumber\": 4708,\n" +
+            "    \"departureAirportIATACode\": \"LAX\",\n" +
+            "    \"arrivalAirportIATACode\": \"MIT\",\n" +
+            "    \"departureDate\": \"2015-01-30T05:39:06-01:00\"\n" +
+            "  }\n" +
+            "]";
 }

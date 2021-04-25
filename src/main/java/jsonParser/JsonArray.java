@@ -12,7 +12,7 @@ public class JsonArray {
                 this.arrayList = new ArrayList<>();
         }
 
-        int parseArray(List<String> list, int index) throws JsonParseException {
+        public int parseArray(List<String> list, int index) throws JsonParseException {
                 int length = list.size();
                 ++index;
                 boolean b = true;

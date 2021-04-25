@@ -53,9 +53,9 @@ public class Solution {
         for (Object obj : baggageArray.getElements()) {
             JsonObject baggage = (JsonObject) obj;
             if (baggage.getAsString("weightUnit").equals("kg")) {
-                totalBaggageWeightInKg += baggage.getAsInt("weight") * baggage.getAsInt("pieces");
+                totalBaggageWeightInKg += baggage.getAsInt("weight");
             } else {
-                totalBaggageWeightInKg += baggage.getAsInt("weight") * baggage.getAsInt("pieces") * 0.45359237;
+                totalBaggageWeightInKg += baggage.getAsInt("weight") * 0.45359237;
             }
         }
         return totalBaggageWeightInKg;
@@ -81,9 +81,9 @@ public class Solution {
         for (Object obj : cargoArray.getElements()) {
             JsonObject cargoElement = (JsonObject) obj;
             if (cargoElement.getAsString("weightUnit").equals("kg")) {
-                totalCargoWeightInKg += cargoElement.getAsInt("weight") * cargoElement.getAsInt("pieces");
+                totalCargoWeightInKg += cargoElement.getAsInt("weight");
             } else {
-                totalCargoWeightInKg += cargoElement.getAsInt("weight") * cargoElement.getAsInt("pieces") * 0.45359237;
+                totalCargoWeightInKg += cargoElement.getAsInt("weight") * 0.45359237;
             }
         }
         return totalCargoWeightInKg;
@@ -110,17 +110,17 @@ public class Solution {
         for (Object obj : cargoArray.getElements()) {
             JsonObject cargoElement = (JsonObject) obj;
             if (cargoElement.getAsString("weightUnit").equals("kg")) {
-                totalWeightInKg += cargoElement.getAsInt("weight") * cargoElement.getAsInt("pieces");
+                totalWeightInKg += cargoElement.getAsInt("weight");
             } else {
-                totalWeightInKg += cargoElement.getAsInt("weight") * cargoElement.getAsInt("pieces") * 0.45359237;
+                totalWeightInKg += cargoElement.getAsInt("weight") * 0.45359237;
             }
         }
         for (Object obj : baggageArray.getElements()) {
             JsonObject baggage = (JsonObject) obj;
             if (baggage.getAsString("weightUnit").equals("kg")) {
-                totalWeightInKg += baggage.getAsInt("weight") * baggage.getAsInt("pieces");
+                totalWeightInKg += baggage.getAsInt("weight");
             } else {
-                totalWeightInKg += baggage.getAsInt("weight") * baggage.getAsInt("pieces") * 0.45359237;
+                totalWeightInKg += baggage.getAsInt("weight") * 0.45359237;
             }
         }
         return totalWeightInKg;
