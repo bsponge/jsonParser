@@ -6,6 +6,8 @@ import java.util.Scanner;
 public class Main {
     private final static Scanner scanner = new Scanner(System.in);
     public static void main(String... args) {
+        Solution.parseData();
+
         System.out.println("1.");
         System.out.println("a.");
         System.out.println("Flight number:");
@@ -13,9 +15,9 @@ public class Main {
         System.out.println("Date:");
         LocalDateTime date = LocalDateTime.parse(getInput());
 
-        System.out.printf("Cargo weight: %f kg\n", Solution.getTotalCargoWeightInKg(flightNumber, date));
-        System.out.printf("Baggage weight: %f kg\n", Solution.getTotalBaggageWeightInKg(flightNumber, date));
-        System.out.printf("Total weight: %f kg\n", Solution.getTotalWeightInKg(flightNumber, date));
+        System.out.printf("Cargo weight: %f kg\n", Solution.getTotalCargoWeight(flightNumber, date));
+        System.out.printf("Baggage weight: %f kg\n", Solution.getTotalBaggageWeight(flightNumber, date));
+        System.out.printf("Total weight: %f kg\n", Solution.getTotalWeight(flightNumber, date));
         System.out.println();
 
         System.out.println("2.");

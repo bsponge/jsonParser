@@ -6,123 +6,150 @@ import jsonParser.JsonObject;
 import jsonParser.JsonParser;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
 public class Solution {
-    static String[] flightEntities = DataSupplier.getFlightEntities();
-    static String[] cargoEntities = DataSupplier.getCargoEntities();
-    static JsonObject[] flightJsonObjects = new JsonObject[flightEntities.length];
-    static JsonObject[] cargoJsonObjects = new JsonObject[cargoEntities.length];
+    static ArrayList<JsonObject> flightJsonObjects = new ArrayList<>();
+    static ArrayList<JsonObject> cargoJsonObjects = new ArrayList<>();
     static JsonParser jsonParser = new JsonParser();
 
-    static {
-        for (int i = 0; i < flightEntities.length; i++) {
-            try {
-                flightJsonObjects[i] = jsonParser.fromJson(flightEntities[i]);
-            } catch (JsonParseException e) {
-                e.printStackTrace();
-            }
+    // parse json strings from DataSupplier to JsonObjects,
+    // strings in DataSupplier are copied from json-generator.com
+    public static void parseData() {
+        JsonArray jsonArray = new JsonArray();
+        try {
+            jsonArray.parseArray(jsonParser.getStrings(DataSupplier.getFlightEntities()), 0);
+        } catch (JsonParseException e) {
+            e.printStackTrace();
         }
-        for (int i = 0; i < cargoEntities.length; i++) {
-            try {
-                cargoJsonObjects[i] = jsonParser.fromJson(cargoEntities[i]);
-            } catch (JsonParseException e) {
-                e.printStackTrace();
-            }
+        for (int i = 0; i < jsonArray.getElements().size(); i++) {
+            flightJsonObjects.add((JsonObject) jsonArray.getElements().get(i));
+        }
+        jsonArray = new JsonArray();
+        try {
+            jsonArray.parseArray(jsonParser.getStrings(DataSupplier.getCargoEntities()), 0);
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < jsonArray.getElements().size(); i++) {
+            cargoJsonObjects.add((JsonObject) jsonArray.getElements().get(i));
         }
     }
 
-    public static double getTotalBaggageWeightInKg(int flightNumber, LocalDateTime date) {
-        JsonObject jsonObject = new JsonObject();
-        int flightId = -1;
+    // returns total baggage weight in kg
+    public static double getTotalBaggageWeight(int flightNumber, LocalDateTime date) {
+        JsonObject jsonObject = null;
+        int flightId;
         for (JsonObject jo : flightJsonObjects) {
             if (jo.getAsInt("flightNumber") == flightNumber && jo.getAsLocalDateTime("departureDate").equals(date)) {
                 jsonObject = jo;
                 break;
-            }
-        }
-        flightId = jsonObject.getAsInt("flightId");
-        for (JsonObject jo : cargoJsonObjects) {
-            if (jo.getAsInt("flightId") == flightId) {
-                jsonObject = jo;
             }
         }
         double totalBaggageWeightInKg = 0.0;
-        JsonArray baggageArray = jsonObject.getAsJsonArray("baggage");
-        for (Object obj : baggageArray.getElements()) {
-            JsonObject baggage = (JsonObject) obj;
-            if (baggage.getAsString("weightUnit").equals("kg")) {
-                totalBaggageWeightInKg += baggage.getAsInt("weight");
-            } else {
-                totalBaggageWeightInKg += baggage.getAsInt("weight") * 0.45359237;
+
+        if (jsonObject != null) {
+            flightId = jsonObject.getAsInt("flightId");
+            for (JsonObject jo : cargoJsonObjects) {
+                if (jo.getAsInt("flightId") == flightId) {
+                    jsonObject = jo;
+                }
             }
+            JsonArray baggageArray = jsonObject.getAsJsonArray("baggage");
+            for (Object obj : baggageArray.getElements()) {
+                JsonObject baggage = (JsonObject) obj;
+                if (baggage.getAsString("weightUnit").equals("kg")) {
+                    totalBaggageWeightInKg += baggage.getAsInt("weight");
+                } else {
+                    totalBaggageWeightInKg += baggage.getAsInt("weight") * 0.45359237;
+                }
+            }
+        } else {
+            throw new NoSuchElementException();
         }
+
         return totalBaggageWeightInKg;
     }
 
-    public static double getTotalCargoWeightInKg(int flightNumber, LocalDateTime date) {
-        JsonObject jsonObject = new JsonObject();
-        int flightId = -1;
+    // returns total cargo weight in kg
+    public static double getTotalCargoWeight(int flightNumber, LocalDateTime date) {
+        JsonObject jsonObject = null;
+        int flightId;
         for (JsonObject jo : flightJsonObjects) {
             if (jo.getAsInt("flightNumber") == flightNumber && jo.getAsLocalDateTime("departureDate").equals(date)) {
                 jsonObject = jo;
                 break;
             }
         }
-        flightId = jsonObject.getAsInt("flightId");
-        for (JsonObject jo : cargoJsonObjects) {
-            if (jo.getAsInt("flightId") == flightId) {
-                jsonObject = jo;
-            }
-        }
-        JsonArray cargoArray = jsonObject.getAsJsonArray("cargo");
+
         double totalCargoWeightInKg = 0.0;
-        for (Object obj : cargoArray.getElements()) {
-            JsonObject cargoElement = (JsonObject) obj;
-            if (cargoElement.getAsString("weightUnit").equals("kg")) {
-                totalCargoWeightInKg += cargoElement.getAsInt("weight");
-            } else {
-                totalCargoWeightInKg += cargoElement.getAsInt("weight") * 0.45359237;
+
+        if (jsonObject != null) {
+            flightId = jsonObject.getAsInt("flightId");
+            for (JsonObject jo : cargoJsonObjects) {
+                if (jo.getAsInt("flightId") == flightId) {
+                    jsonObject = jo;
+                }
             }
+            JsonArray cargoArray = jsonObject.getAsJsonArray("cargo");
+            for (Object obj : cargoArray.getElements()) {
+                JsonObject cargoElement = (JsonObject) obj;
+                if (cargoElement.getAsString("weightUnit").equals("kg")) {
+                    totalCargoWeightInKg += cargoElement.getAsInt("weight");
+                } else {
+                    totalCargoWeightInKg += cargoElement.getAsInt("weight") * 0.45359237;
+                }
+            }
+        } else {
+            throw new NoSuchElementException();
         }
+
         return totalCargoWeightInKg;
     }
 
-    public static double getTotalWeightInKg(int flightNumber, LocalDateTime date) {
+    // returns total weight in kg
+    public static double getTotalWeight(int flightNumber, LocalDateTime date) {
         double totalWeightInKg = 0.0;
-        JsonObject jsonObject = new JsonObject();
-        int flightId = -1;
+        JsonObject jsonObject = null;
+        int flightId;
         for (JsonObject jo : flightJsonObjects) {
             if (jo.getAsInt("flightNumber") == flightNumber && jo.getAsLocalDateTime("departureDate").equals(date)) {
                 jsonObject = jo;
                 break;
             }
         }
-        flightId = jsonObject.getAsInt("flightId");
-        for (JsonObject jo : cargoJsonObjects) {
-            if (jo.getAsInt("flightId") == flightId) {
-                jsonObject = jo;
+        if (jsonObject != null) {
+            flightId = jsonObject.getAsInt("flightId");
+            for (JsonObject jo : cargoJsonObjects) {
+                if (jo.getAsInt("flightId") == flightId) {
+                    jsonObject = jo;
+                }
             }
-        }
-        JsonArray cargoArray = jsonObject.getAsJsonArray("cargo");
-        JsonArray baggageArray = jsonObject.getAsJsonArray("baggage");
-        for (Object obj : cargoArray.getElements()) {
-            JsonObject cargoElement = (JsonObject) obj;
-            if (cargoElement.getAsString("weightUnit").equals("kg")) {
-                totalWeightInKg += cargoElement.getAsInt("weight");
-            } else {
-                totalWeightInKg += cargoElement.getAsInt("weight") * 0.45359237;
+            JsonArray cargoArray = jsonObject.getAsJsonArray("cargo");
+            JsonArray baggageArray = jsonObject.getAsJsonArray("baggage");
+            for (Object obj : cargoArray.getElements()) {
+                JsonObject cargoElement = (JsonObject) obj;
+                if (cargoElement.getAsString("weightUnit").equals("kg")) {
+                    totalWeightInKg += cargoElement.getAsInt("weight");
+                } else {
+                    totalWeightInKg += cargoElement.getAsInt("weight") * 0.45359237;
+                }
             }
-        }
-        for (Object obj : baggageArray.getElements()) {
-            JsonObject baggage = (JsonObject) obj;
-            if (baggage.getAsString("weightUnit").equals("kg")) {
-                totalWeightInKg += baggage.getAsInt("weight");
-            } else {
-                totalWeightInKg += baggage.getAsInt("weight") * 0.45359237;
+            for (Object obj : baggageArray.getElements()) {
+                JsonObject baggage = (JsonObject) obj;
+                if (baggage.getAsString("weightUnit").equals("kg")) {
+                    totalWeightInKg += baggage.getAsInt("weight");
+                } else {
+                    totalWeightInKg += baggage.getAsInt("weight") * 0.45359237;
+                }
             }
+        } else {
+            throw new NoSuchElementException();
         }
+
         return totalWeightInKg;
     }
 
